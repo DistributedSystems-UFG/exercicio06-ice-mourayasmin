@@ -1,0 +1,29 @@
+# Compiled class files
+*.class
+
+# JAR files (Ice runtime - can be downloaded)
+*.jar
+
+# OS files
+.DS_Store
+*.swp
+*~
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Temporary files
+*.log
+*.tmp
+
+# Local configuration (if you create one later)
+config.local
+*.local
+
+# Backup files
+*.bak
+Demo.tar.gz
+
+Demo/

@@ -6,19 +6,40 @@ public class Client {
         try (Communicator communicator = Util.initialize(args)) {
 
             // 2. Create a proxy to the remote 'Printer' object
-            // Replace '10.0.0.5' with the actual IP of your ICE server
-            ObjectPrx base = communicator.stringToProxy("SimplePrinter:default -h 98.90.53.6 -p 5678");
+            // For local testing: use "127.0.0.1"
+            // For remote server: replace with the server's IP address
+            String serverHost = "127.0.0.1"; // Change this to your server IP
+            ObjectPrx printerBase = communicator.stringToProxy("SimplePrinter:default -h " + serverHost + " -p 11000");
 
             // 3. Downcast the proxy to the Printer interface
-            Demo.PrinterPrx printer = Demo.PrinterPrx.checkedCast(base);
+            Demo.PrinterPrx printer = Demo.PrinterPrx.checkedCast(printerBase);
 
             if (printer == null) {
                 throw new Error("Invalid proxy");
             }
 
-            // 4. Call the remote method
-            String response = printer.printString("Hello from Goiania!");
-            System.out.println("Server responded: " + response);
+            // 4. Call the remote methods
+            System.out.println("=== Testing Printer Interface ===");
+            printer.printString("Hello from Goiania!");
+            System.out.println("Called printString()");
+
+            int sumResult = printer.sum(5, 6);
+            System.out.println("sum(5, 6) = " + sumResult);
+
+            // 5. Create a proxy to the remote 'Calculator' object
+            ObjectPrx calcBase = communicator.stringToProxy("SimpleCalculator:default -h " + serverHost + " -p 11000");
+
+            // 6. Downcast the proxy to the Calculator interface
+            Demo.CalculatorPrx calculator = Demo.CalculatorPrx.checkedCast(calcBase);
+
+            if (calculator == null) {
+                throw new Error("Invalid Calculator proxy");
+            }
+
+            // 7. Call the remote method
+            System.out.println("\n=== Testing Calculator Interface ===");
+            double divResult = calculator.divisor(10.0, 2.0);
+            System.out.println("divisor(10.0, 2.0) = " + divResult);
 
         } catch (LocalException e) {
             e.printStackTrace();

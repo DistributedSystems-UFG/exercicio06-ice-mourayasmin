@@ -2,6 +2,7 @@ module Demo
 {
     interface Printer
     {
-        string printString(string s);
+        void printString(string s);
+        int sum(int n1, int n2);
     }
 }
